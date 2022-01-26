@@ -5,18 +5,17 @@
 #         self.left = left
 #         self.right = right
 from collections import defaultdict
+def do_dfs(root, ans):
+    if not root:
+        return 0
+    ret = 1+max(do_dfs(root.left,ans),do_dfs(root.right,ans))
+    ans[ret].append(root.val)
+    return ret
 class Solution:
-    def helper(self, root):
-        if not root:
-            return 0
-        level = 1+max(self.helper(root.left), self.helper(root.right))
-        self.hmap[level].append(root.val)
-        return level
+    
     def findLeaves(self, root: Optional[TreeNode]) -> List[List[int]]:
-        self.hmap = defaultdict(list)
-        self.helper(root)
-        keys = sorted(self.hmap)
-        ans = []
-        for key in keys:
-            ans.append(self.hmap[key])
-        return ans
+        ans = defaultdict(list)
+        x = do_dfs(root,ans)
+        a = ans.values()
+        return (list(a))
+        
