@@ -1,16 +1,16 @@
-from queue import PriorityQueue
+from heapq import heappop,heappush
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        q = PriorityQueue()
-        ans = ListNode(0)
-        tail = ans
-        for index,head in enumerate(lists):
-            if head: q.put((head.val, index, head))
-        while q.qsize() > 0:
-            elem = q.get()
-            tail.next = ListNode(elem[0])
-            tail = tail.next
-            if elem[2].next:
-                q.put((elem[2].next.val,elem[1],elem[2].next))
-            
-        return ans.next
+        heap = []
+        for index,list in enumerate(lists):
+            if list:
+                heappush(heap,(list.val,index, list))
+        ans_list = ListNode(0)
+        ans_list_tail = ans_list
+        while heap:
+            val,index,node= heappop(heap)
+            ans_list_tail.next = node
+            ans_list_tail = ans_list_tail.next
+            if node.next:
+                heappush(heap,(node.next.val,index,node.next))
+        return ans_list.next
