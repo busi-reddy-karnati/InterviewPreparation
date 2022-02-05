@@ -6,7 +6,7 @@ class Solution:
         cols = len(grid[0])
         if rows == cols == 1:
             return 0
-        queue.append([0,0,k,0])#Format is x, y, obstacles_remaining, steps_taken
+        queue.append((0,0,k,0))#Format is x, y, obstacles_remaining, steps_taken
         visited = set()
         visited.add((0,0,k))
         cords_change = [[-1,0],[1,0],[0,1],[0,-1]]
@@ -28,7 +28,7 @@ class Solution:
                 new_y = y+coord[1]
                 if 0<=new_x<rows and 0<=new_y<cols and (new_x,new_y,obstacles_remaining) not in visited:
                     visited.add((new_x,new_y,obstacles_remaining))
-                    queue.append([new_x,new_y,obstacles_remaining,steps])
+                    queue.append((new_x,new_y,obstacles_remaining,steps))
         return -1
             
         
