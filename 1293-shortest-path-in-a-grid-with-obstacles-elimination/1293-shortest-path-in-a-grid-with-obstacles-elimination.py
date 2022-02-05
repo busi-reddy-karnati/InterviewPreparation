@@ -1,6 +1,7 @@
+from collections import deque
 class Solution:
     def shortestPath(self, grid: List[List[int]], k: int) -> int:
-        queue = []
+        queue = deque()
         rows = len(grid)
         cols = len(grid[0])
         if rows == cols == 1:
@@ -10,7 +11,7 @@ class Solution:
         visited.add((0,0,k))
         cords_change = [[-1,0],[1,0],[0,1],[0,-1]]
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             x = node[0]
             y = node[1]
             obstacles_remaining = node[2]
