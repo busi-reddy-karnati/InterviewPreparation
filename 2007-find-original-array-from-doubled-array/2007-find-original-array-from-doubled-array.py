@@ -1,26 +1,16 @@
-from collections import defaultdict
 class Solution:
     def findOriginalArray(self, changed: List[int]) -> List[int]:
-        changed.sort()
-        num_frequency = defaultdict(int)
-        for num in changed:
-            num_frequency[num]+=1
-        result_array = []
-        for num in changed:
-            if num == 0:
-                if num_frequency[num]%2==1:
+        num_freq = collections.Counter(changed)
+        keys = sorted(num_freq)
+        ans = []
+        for key in keys:
+            if key == 0:
+                if num_freq[key]%2:
                     return []
-                for i in range(num_frequency[num]//2):
-                    result_array.append(0)
-                num_frequency[0] = 0
-                continue
-            if num_frequency[num] == 0:
-                continue
-            if num_frequency[2*num] <= 0:
+                ans.extend([key]*(num_freq[0]//2))
+                num_freq[0] = 0
+            if num_freq[2*key]<num_freq[key]:
                 return []
-            result_array.append(num)
-            num_frequency[num]-=1
-            num_frequency[2*num]-=1
-        return result_array
-        
-        
+            ans.extend([key]*num_freq[key])
+            num_freq[2*key] -= num_freq[key]
+        return ans
