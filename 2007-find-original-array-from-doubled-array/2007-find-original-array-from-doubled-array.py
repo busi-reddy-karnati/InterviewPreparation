@@ -1,29 +1,26 @@
 from collections import defaultdict
 class Solution:
     def findOriginalArray(self, changed: List[int]) -> List[int]:
-        if len(changed)%2==1:return []
         changed.sort()
-        ans = []
-        hmap = defaultdict(int)
+        num_frequency = defaultdict(int)
         for num in changed:
-            hmap[num]+=1
-        hmap = dict(sorted(hmap.items()))
-        # print(hmap)
-        for num in hmap:
+            num_frequency[num]+=1
+        result_array = []
+        for num in changed:
             if num == 0:
-                if hmap[num]%2:
+                if num_frequency[num]%2==1:
                     return []
-                for i in range(hmap[num]//2):
-                    ans.append(num)
+                for i in range(num_frequency[num]//2):
+                    result_array.append(0)
+                num_frequency[0] = 0
                 continue
-            if hmap[num] == 0:
+            if num_frequency[num] == 0:
                 continue
-            if hmap[num] > 0 and 2*num in hmap and hmap[2*num] >= hmap[num]:
-                for i in range(hmap[num]):
-                    ans.append(num)
-                hmap[2*num]-=hmap[num]
-                hmap[num] = 0
-            else:
+            if num_frequency[2*num] <= 0:
                 return []
-        return ans
+            result_array.append(num)
+            num_frequency[num]-=1
+            num_frequency[2*num]-=1
+        return result_array
+        
         
