@@ -1,17 +1,14 @@
 class Solution:
     def longestStrChain(self, words: List[str]) -> int:
-        words.sort(key= lambda x:len(x))
-        index = {}
-        ans = [1]*len(words)
-        for i,word in enumerate(words):
-            index[word] = i
-        int_ans = 1
-        for ind,word in enumerate(words):
-            temp = list(word)
-            for i in range(len(temp)):
-                small_word = "".join(temp[:i])+"".join(temp[i+1:])
-                if small_word in index:
-                    ans[ind] = ans[index[small_word]]+1
-                    int_ans = max(int_ans,ans[ind])
-        return int_ans
+        words.sort(key=lambda x : len(x),reverse=True)
+        ans = {}
+        for word in words:
+            ans[word] = 1
+        
+        for word in words:
+            for i in range(len(word)):
+                temp_str = word[:i] + word[i+1:]
+                if temp_str in ans:
+                    ans[temp_str] = max(ans[word] + 1,ans[temp_str])
+        return max(ans.values())
         
