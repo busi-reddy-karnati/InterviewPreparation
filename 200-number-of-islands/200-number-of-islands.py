@@ -1,26 +1,23 @@
-def modify_grid(grid, x, y):
-    if x < 0 or x > len(grid)-1:
+def clear(grid,row,col):
+    if row == len(grid) or col == len(grid[0]) or col == -1 or row == -1:
         return
-    if y < 0 or y > len(grid[0])-1:
+    if grid[row][col] == "0":
         return
-    if grid[x][y] == "0":
-        return
-    grid[x][y] = "0"
-    modify_grid(grid,x+1,y)
-    modify_grid(grid,x,y+1)
-    modify_grid(grid,x-1,y)
-    modify_grid(grid,x,y-1)
+    grid[row][col] = "0"
+    clear(grid,row,col+1)
+    clear(grid,row+1,col)
+    clear(grid,row-1,col)
+    clear(grid,row,col-1)
     
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        rows = len(grid)        
+        rows = len(grid)
         cols = len(grid[0])
-        
         ans = 0
-        for i in range(rows):
-            for j in range(cols):
-                if grid[i][j] == "1":
+        for row in range(rows):
+            for col in range(cols):
+                if grid[row][col] == "1":
                     ans += 1
-                    modify_grid(grid,i,j)
-                    
+                    clear(grid,row,col)
         return ans
+    
