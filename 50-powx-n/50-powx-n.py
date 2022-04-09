@@ -3,9 +3,11 @@ class Solution:
         ans = 1
         if n < 0:
             return 1/self.myPow(x,-n)
-        while n:
-            if n%2 == 1:
-                ans = ans*x
-            x = x*x
-            n = n//2
-        return ans
+        if n == 1:
+            return x
+        if n == 0:
+            return 1
+        if n % 2== 0:
+            return self.myPow(x*x,n//2)
+        return x*self.myPow(x*x,n//2)
+            
