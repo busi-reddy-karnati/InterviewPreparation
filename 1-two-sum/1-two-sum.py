@@ -6,3 +6,5 @@ class Solution:
                 return [i,hashmap[target-num]]
             hashmap[num] = i
         
+                
+        
