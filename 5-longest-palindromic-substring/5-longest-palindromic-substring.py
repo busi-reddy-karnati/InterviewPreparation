@@ -1,26 +1,31 @@
+
+from multiprocessing.connection import answer_challenge
+
+
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        best_len = 0
-        ans = ""
+        odd_index = 0
+        ans_len = 0
+        ans_string = ""
         n = len(s)
         for i in range(n):
-            x = 0
-            while i-x >=0 and i+x<n:
-                if s[i+x] != s[i-x]:
+            offset = 0
+            while i-offset >=0 and i+offset<n:
+                if s[i-offset] != s[i+offset]:
                     break
-                x+=1
-            temp = s[i-x+1:i+x]
-            if len(temp) > best_len:
-                best_len = len(temp)
-                ans = temp
+                if ((2*offset)+1) > ans_len:
+                    ans_len = ((2*offset)+1)
+                    ans_string = s[i-offset:i+offset+1]
+                offset += 1
+
         for i in range(n-1):
-            x = 0
-            while i-x >=0 and i+x+1<n:
-                if s[i-x] != s[i+x+1]:
+            offset = 0
+            while i-offset >= 0 and i+offset+1<n:
+                if s[i-offset] != s[i+offset+1]:
                     break
-                x+=1
-            temp = s[i-x+1:i+x+1]
-            if len(temp) > best_len:
-                best_len = len(temp)
-                ans = temp
-        return ans
+                if ((2*offset)+2) > ans_len:
+                    ans_len = ((2*offset)+2)
+                    ans_string = s[i-offset:i+offset+2]
+                offset += 1
+        return ans_string
+
