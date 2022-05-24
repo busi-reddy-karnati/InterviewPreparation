@@ -1,16 +1,20 @@
-from heapq import heappop,heappush
+from heapq import heappush, heappop
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         heap = []
-        for index,list in enumerate(lists):
-            if list:
-                heappush(heap,(list.val,index, list))
-        ans_list = ListNode(0)
-        ans_list_tail = ans_list
+        for i in range(len(lists)):
+            if lists[i]:
+                heappush(heap, (lists[i].val,i, lists[i]))
+                lists[i] = lists[i].next
+        dummy = ListNode()
+        ans = dummy
         while heap:
-            val,index,node= heappop(heap)
-            ans_list_tail.next = node
-            ans_list_tail = ans_list_tail.next
+            node = heappop(heap)
+            i = node[1]
+            node = node[2]
+            dummy.next = node
+            dummy = dummy.next
             if node.next:
-                heappush(heap,(node.next.val,index,node.next))
-        return ans_list.next
+                heappush(heap, (node.next.val,i, node.next))
+        return ans.next
+            
