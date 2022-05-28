@@ -11,4 +11,10 @@ class Solution:
 #         return self.uniquePaths(m-1,n)+self.uniquePaths(m,n-1)
         downs = m-1
         rights = n-1
-        return int((factorial(downs+rights)/((factorial(downs))*(factorial(rights)))))
+        ans = 1
+        init = downs+rights
+        mini = min(downs,rights)
+        for i in range(mini):
+            ans = ans*(init-i)
+        
+        return int(ans/factorial(mini))
