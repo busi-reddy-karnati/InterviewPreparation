@@ -1,8 +1,4 @@
-def factorial(n):
-    ans = 1
-    for i in range(1,n+1):
-        ans *= i
-    return ans
+from math import factorial
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         #dp solution
