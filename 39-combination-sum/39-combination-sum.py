@@ -1,22 +1,26 @@
 class Solution:
-    def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:
+    ans = []
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         self.ans = []
-        path = []
-        nums.sort()
-        self.helper(nums,target,0,path)
+        self.solve(candidates, target, [],0)
         return self.ans
-    def helper(self,nums,target,ind,path):
-        if target == 0:
-            self.ans.append([num for num in path])
-        if ind >= len(nums) or target < nums[ind]:
-            return
-        itr = 0
-        num = nums[ind]
-        while itr*num <= target:
-            self.helper(nums,target-(itr*num),ind+1,path)
-            itr+=1
-            path.append(num)
-        for i in range(itr):
-            path.pop(-1)
+    def solve(self, nums, target, temp,index):
         
+        if index >= len(nums):
+            if sum(temp) == target:
+                self.ans.append([i for i in temp])
+            return 
+        
+        insert_count = 0
+        self.solve(nums,target,temp,index+1)
+        while True:
+            if sum(temp)+nums[index] > target:
+                break
+            temp.append(nums[index])
+            insert_count += 1
+            self.solve(nums,target,temp,index+1)
+        for i in range(insert_count):
+            temp.pop()
+        
+            
         
