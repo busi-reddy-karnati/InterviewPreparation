@@ -1,11 +1,8 @@
 class Solution:
     def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
-        intervals.sort()
-        if not intervals:
-            return True
-        max_time = intervals[0][1]
+        intervals.sort(key = lambda interval:interval[0])
         for i in range(1,len(intervals)):
-            if intervals[i][0] < max_time:
+            if intervals[i][0] < intervals[i-1][1]:
                 return False
-            max_time = max(intervals[i][1],max_time)
         return True
+        
