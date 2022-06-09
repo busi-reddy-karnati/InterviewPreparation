@@ -1,18 +1,22 @@
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
-        ln = 0
-        for interval in intervals:
-            ln = max(ln,interval[1])
-            # print(interval[1])
-        ln+=1
-        meetings_timeline = [0]*ln
-        for interval in intervals:
-            meetings_timeline[interval[0]] += 1
-            meetings_timeline[interval[1]] -= 1
+        starts =  [interval[0] for interval in intervals]
+        ends = [interval[1] for interval in intervals]
+        starts.sort()
+        ends.sort()
+        tempRooms = 0
+        startPtr = 0
+        endPtr = 0
         ans = 0
-        meetings = 0
-        for i in range(ln):
-            meetings += meetings_timeline[i]
-            ans = max(ans,meetings)
+        while startPtr < len(intervals):
+            if starts[startPtr] == ends[endPtr]:
+                startPtr += 1
+                endPtr += 1
+            elif starts[startPtr] < ends[endPtr]:
+                tempRooms += 1
+                startPtr+=1
+            else:
+                tempRooms-=1
+                endPtr+=1
+            ans = max(ans,tempRooms)
         return ans
-        
