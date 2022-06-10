@@ -1,9 +1,9 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        charset = set()
         p1 = 0
         p2 = 0
         ans = 0
+        charset = set()
         while p2 < len(s):
             if s[p2] in charset:
                 while s[p1] != s[p2]:
@@ -14,4 +14,3 @@ class Solution:
             p2+=1
             ans = max(ans,len(charset))
         return ans
-        
