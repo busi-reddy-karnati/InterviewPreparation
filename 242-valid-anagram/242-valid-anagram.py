@@ -1,6 +1,11 @@
-from collections import Counter
+from collections import defaultdict
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        s = Counter(s)
-        t = Counter(t)
-        return s == t
+        hashmap = defaultdict(int)
+        for char in s:
+            hashmap[char] += 1
+        for char in t:
+            if hashmap[char] == 0:
+                return False
+            hashmap[char] -= 1
+        return sum(hashmap.values()) == 0
