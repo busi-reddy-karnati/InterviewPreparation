@@ -9,21 +9,20 @@ class Solution:
             return list2
         if not list2:
             return list1
-        head1 = list1
-        head2 = list2
-        while head1 and head2:
-            if head1.val < head2.val:
-                if not head1.next:
-                    head1.next = head2
-                    return list1
-                head1 = head1.next
-                
+        ans = list1
+        list1_prev = None
+        while list1 and list2:
+            if list1.val < list2.val:
+                list1_prev = list1
+                list1 = list1.next
             else:
-                head1next = head1.next
-                head1.next = head2
-                head2 = head2.next
-                head1.next.next = head1next
-                head1.val,head1.next.val = head1.next.val,head1.val
-                head1 = head1.next
-        return list1
-                
+                list1_next = list1.next
+                list1.next = list2
+                list2 = list2.next
+                list1.next.next = list1_next
+                list1.next.val, list1.val = list1.val, list1.next.val
+                list1_prev = list1
+                list1 = list1.next
+        if not list1:
+            list1_prev.next = list2
+        return ans
