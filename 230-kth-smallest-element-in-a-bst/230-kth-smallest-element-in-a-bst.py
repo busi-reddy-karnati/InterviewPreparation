@@ -1,15 +1,18 @@
-
-def numElemsInTree(root):
-    if not root:
-        return 0
-    return 1+numElemsInTree(root.left)+numElemsInTree(root.right)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def kthSmallest(self, root, k):
-        left_count = numElemsInTree(root.left)
-        if left_count == k-1:
-            return root.val
-        if left_count >= k:
-            return self.kthSmallest(root.left,k)
-        else:
-            return self.kthSmallest(root.right, k-left_count-1)
-        
+    inorder = []
+    def traverse(self, node):
+        if not node:
+            return 
+        self.traverse(node.left)
+        self.inorder.append(node.val)
+        self.traverse(node.right)
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        self.inorder = []
+        self.traverse(root)
+        return self.inorder[k-1]
