@@ -4,21 +4,22 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-def binary_search(arr, num):
-    for i in range(len(arr)):
-        if arr[i] == num:
-            return i
-            
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        if len(preorder)<1:
-            return None
-        if len(preorder) == 1:
-            return TreeNode(preorder[0])
-        val = preorder[0]
-        root = TreeNode(val)
-        index = binary_search(inorder, val)
-        root.left = self.buildTree(preorder[1:index+1],inorder[:index])
-        root.right = self.buildTree(preorder[index+1:], inorder[index+1:])
-        return root
-        
+        def helper(left, right):
+            nonlocal preorder_index
+            if right < left:
+                return
+            val = preorder[preorder_index]
+            preorder_index += 1
+            index = inorder_index[val]
+            root = TreeNode(val)
+            root.left = helper(left, index-1)
+            root.right = helper(index+1, right)
+            return root
+        preorder_index = 0
+        inorder_index = {}
+        for i, num in enumerate(inorder):
+            inorder_index[num] = i
+        return helper(0, len(preorder)-1)
+    
