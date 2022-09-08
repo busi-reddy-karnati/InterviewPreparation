@@ -1,21 +1,21 @@
 class Solution:
-    def clear(self, grid, row, col):
-        if row < 0 or row >= len(grid) or col < 0 or col >= len(grid[0]):
-            return
-        if grid[row][col] == "1":
-            grid[row][col] = "0"
-            self.clear(grid,row+1,col)            
-            self.clear(grid,row-1,col)
-            self.clear(grid,row,col+1)
-            self.clear(grid,row,col-1)
-
     def numIslands(self, grid: List[List[str]]) -> int:
-        rows = len(grid)
-        cols = len(grid[0])
+        def bfs(x,y):
+            nonlocal grid
+            if x >= len(grid) or x < 0 or y >= len(grid[0]) or y < 0:
+                return
+            if grid[x][y] == "0":
+                return
+            directions = [[0,1],[1,0],[-1,0],[0,-1]]
+            grid[x][y] = "0"
+            for direction in directions:
+                x_new = x + direction[0]
+                y_new = y + direction[1]
+                bfs(x_new, y_new)
         ans = 0
-        for row in range(rows):
-            for col in range(cols):
-                if grid[row][col] == "1":
-                    self.clear(grid, row, col)
-                    ans += 1                
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == "1":
+                    ans += 1
+                    bfs(i,j)
         return ans
