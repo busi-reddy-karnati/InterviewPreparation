@@ -5,25 +5,24 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
-        self.ans = []
-        lis = []
-        self.helper(root,targetSum,lis)
-        return self.ans
-    
-    def helper(self, root, targetSum, lis):
+        ans = []
+        def traverse(node, temp_list, sum_here):
+            nonlocal ans
+            if not node.right and not node.left:
+                if sum_here == targetSum:
+                    ans.append([i for i in temp_list])
+                return
+            if node.left:
+                temp_list.append(node.left.val)
+                traverse(node.left, temp_list, sum_here+node.left.val)
+                temp_list.pop()
+            if node.right:
+                temp_list.append(node.right.val)
+                traverse(node.right, temp_list, sum_here+node.right.val)
+                temp_list.pop()
+            
         if not root:
-            return 
-        if not root.left and not root.right and targetSum == root.val:
-            lis.append(root.val)
-            a = [i for i in lis]
-            self.ans.append(a)
-            lis.pop(-1)
-            return
-        lis.append(root.val)
-        self.helper(root.left,targetSum-root.val,lis)
-        self.helper(root.right,targetSum-root.val,lis)        
-        lis.pop(-1)
-        
-        
+            return []
+        traverse(root,[root.val],root.val)
+        return ans
