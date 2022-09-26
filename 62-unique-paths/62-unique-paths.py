@@ -1,13 +1,19 @@
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        dp = {}
-        def helper(x,y):
-            if x == n-1 or y == m-1:
-                return 1
-            if (x,y) in dp:
-                return dp[(x,y)]
-            ans = helper(x+1,y)+helper(x,y+1)
-            dp[(x,y)] = ans
+        def fac(k):
+            ans = 1
+            for i in range(1,k+1):
+                ans = ans*i
             return ans
-        return helper(0,0)
+        def find_ans():
+            s = m+n
+            mini = min(m,n)
+            maxi = max(m,n)
+            ret = 1
+            for i in range(s,maxi,-1):
+                ret = ret*i
+            return int(ret/fac(mini))
+        m = m-1
+        n = n-1
+        return find_ans()
             
