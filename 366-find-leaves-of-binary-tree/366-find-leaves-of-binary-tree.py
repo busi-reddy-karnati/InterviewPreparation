@@ -4,18 +4,21 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from collections import defaultdict
-def do_dfs(root, ans):
-    if not root:
-        return 0
-    ret = 1+max(do_dfs(root.left,ans),do_dfs(root.right,ans))
-    ans[ret].append(root.val)
-    return ret
 class Solution:
-    
     def findLeaves(self, root: Optional[TreeNode]) -> List[List[int]]:
-        ans = defaultdict(list)
-        x = do_dfs(root,ans)
-        a = ans.values()
-        return (list(a))
-        
+        depth_order = collections.defaultdict(list)
+        def traverse_depth(node):
+            nonlocal depth_order
+            if not node:
+                return -1
+            left_depth = traverse_depth(node.left)
+            right_depth = traverse_depth(node.right)
+            depth = max(left_depth, right_depth)+1
+            depth_order[depth].append(node.val)
+            return depth
+        ans = []
+        traverse_depth(root)
+        # print(depth_order)
+        for ke in sorted(depth_order):
+            ans.append(depth_order[ke])
+        return ans
