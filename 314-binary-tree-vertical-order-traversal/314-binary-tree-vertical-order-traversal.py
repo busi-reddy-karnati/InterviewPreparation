@@ -1,26 +1,30 @@
-from collections import defaultdict
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    dic = defaultdict(list)
     def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        self.dic = defaultdict(list)
-        self.helper(root)
-        x = sorted(self.dic)
-        ans = []
-        for i in x:
-            ans.append(self.dic[i])
-        return ans
-    def helper(self, root):
+        vertical_order = collections.defaultdict(list)
+        q = collections.deque()
         if not root:
-            return
-        queue = []
-        queue.append((root,0))
-        while queue:
-            top = queue.pop(0)
-            node = top[0]
-            ind = top[1]
-            self.dic[ind].append(node.val)
-            if node.left:
-                queue.append((node.left,ind-1))
-            if node.right:
-                queue.append((node.right,ind+1))
+            return []
+        q.append([root,0])
+        while q:
+            qlen = len(q)
+            for i in range(qlen):
+                popped = q.popleft()
+                node = popped[0]
+                level = popped[1]
+                if node.left:
+                    q.append([node.left, level-1])
+                if node.right:
+                    q.append([node.right, level+1])
+                vertical_order[level].append(node.val)
+        ans= []
+        
+        for ke in sorted(vertical_order):
+            ans.append(vertical_order[ke])
+        return ans
         
